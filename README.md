@@ -57,6 +57,10 @@ This links each skill folder individually rather than the whole directory,
 so you can still add ad-hoc, machine-specific skills directly into
 `~/.claude/skills/` without touching this repo.
 
+!! **(optional): Copy `CLAUDE-project-example.md` to project level claude.md file to auto-queue skills on session start/end**
+
+##
+
 **Where things actually live, since this trips people up:**
 - The real files + git history: `~/dev/claude-skills/` - this is where
   you `git add` / `commit` / `push` / `pull` from, always.
