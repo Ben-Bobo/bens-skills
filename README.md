@@ -1,4 +1,4 @@
-[![Repo](https://img.shields.io/badge/repo-bens.claude.skills-blue?style=for-the-badge)](REPO)
+[![Repo](https://img.shields.io/badge/repo-bens.claude.skills-blue?style=for-the-badge)](README.md)
 
 Personal Claude Code skills for planning, phase-tracking, and doc hygiene
 across projects. No issue-tracker or GitHub integration - these are
