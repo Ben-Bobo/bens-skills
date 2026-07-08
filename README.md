@@ -1,28 +1,28 @@
 # When to use which skill
-[![Repo](https://img.shields.io/badge/repo-bens.claude.skills-blue?style=for-the-badge)](personal-skills/README.md) [![Repo](https://img.shields.io/badge/repo-coe.claude.skills-red?style=for-the-badge)](team-skills/README.md)
+[![Repo](https://img.shields.io/badge/repo-bens.claude.skills-blue?style=for-the-badge)](personal-skills/README.md) [![Repo](https://img.shields.io/badge/repo-team.claude.skills-red?style=for-the-badge)](team-skills/README.md)
 
 
 ## Decision flow
 
 ```mermaid
 flowchart TD
-    A[Starting or working on something] --> B{Is this a team-owned repo,<br/>touched by more than one dev?}
-
-    B -- No, solo project --> C[architect → phase-plan → phase-status<br/><i>personal</i>]
+    A[Starting or working on something] --> B{Team repo, touched by more than one dev?}
+ 
+    B -- No, solo project --> C["architect, then phase-plan, then phase-status"]
     C --> D{Foundational decision changed?}
-    D -- Yes --> E[update-spec, or phase-status<br/>auto-proposes it<br/><i>personal</i>]
-    D -- No --> F[keep building]
-
-    B -- Yes, team repo --> G[security-check before every PR<br/>test-strategy before calling done<br/><i>team</i>]
-    G --> H{Making a decision others<br/>will rely on / question later?}
-    H -- Yes --> I[adr<br/><i>team</i>]
-    H -- No --> J{New person joining<br/>this repo?}
-    J -- Yes --> K[onboard<br/><i>team</i>]
-    J -- No --> L[keep building]
-
-    B -- Yes, but I'm still the<br/>sole active driver day-to-day --> M[Use BOTH:<br/>phase-plan/phase-status for your<br/>own working notes, PLUS adr for<br/>decisions the team will inherit<br/><i>personal + team, combined</i>]
-
-    N[Need to hand this off to<br/>a new collaborator or agent<br/>with zero context] --> O[to-prd<br/>reads spec.md + phases + docs/adr/<br/>if present<br/><i>personal, pulls from team artifacts too</i>]
+    D -- Yes --> E["update-spec, or phase-status auto-proposes it"]
+    D -- No --> F[Keep building]
+ 
+    B -- Yes, team repo --> G["security-check before every PR; test-strategy before calling done"]
+    G --> H{Making a decision others will rely on or question later?}
+    H -- Yes --> I[adr]
+    H -- No --> J{New person joining this repo?}
+    J -- Yes --> K[onboard]
+    J -- No --> L[Keep building]
+ 
+    B -- Yes, but I am still the sole day-to-day driver --> M["Use both: phase-plan and phase-status for personal notes, plus adr for decisions the team will inherit"]
+ 
+    N[Need to hand off to a new collaborator or agent] --> O["to-prd - reads spec.md, phases, and docs/adr if present"]
 ```
 
 ## Quick reference table

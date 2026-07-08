@@ -1,9 +1,6 @@
 [![Repo](https://img.shields.io/badge/repo-coe.claude.skills-red?style=for-the-badge)](README.md)
 
-Guardrail skills for Claude Code, shared across the team. Distinct from
-personal skills repos - these are **owned and updated by the COE**, and
-individual devs pull from this repo read-only rather than pushing changes
-directly (see Distribution model below).
+Guardrail skills for Claude Code, shared across the team.
 
 ## What's here
 
