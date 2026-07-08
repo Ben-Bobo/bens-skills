@@ -1,4 +1,4 @@
-[![Repo](https://img.shields.io/badge/repo-coe.claude.skills-red?style=for-the-badge)](README.md)
+[![Repo](https://img.shields.io/badge/repo-team.claude.skills-red?style=for-the-badge)](README.md)
 
 Guardrail skills for Claude Code, shared across the team.
 

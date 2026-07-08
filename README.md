@@ -1,6 +1,4 @@
-# When to use which skill
-[![Repo](https://img.shields.io/badge/repo-bens.claude.skills-blue?style=for-the-badge)](personal-skills/README.md) [![Repo](https://img.shields.io/badge/repo-team.claude.skills-red?style=for-the-badge)](team-skills/README.md)
-
+(1) [![Repo](https://img.shields.io/badge/repo-bens.claude.skills-blue?style=for-the-badge)](personal-skills/README.md) (2) [![Repo](https://img.shields.io/badge/repo-team.claude.skills-red?style=for-the-badge)](team-skills/README.md)
 
 ## Decision flow
 
