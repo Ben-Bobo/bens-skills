@@ -1,87 +1,71 @@
-[![Repo](https://img.shields.io/badge/repo-bens.claude.skills-blue?style=for-the-badge)](README.md)
+# When to use which skill
+[![Repo](https://img.shields.io/badge/repo-bens.claude.skills-blue?style=for-the-badge)](personal-skills/README.md) [![Repo](https://img.shields.io/badge/repo-coe.claude.skills-red?style=for-the-badge)](team-skills/README.md)
 
-Personal Claude Code skills for planning, phase-tracking, and doc hygiene
-across projects. No issue-tracker or GitHub integration - these are
-lightweight, local-file-only skills meant to be symlinked into
-`~/.claude/skills/` on any machine.
 
-## What's here
+## Decision flow
 
-Run `./install.sh` once after cloning to symlink everything into
-`~/.claude/skills/` - see Installation below.
+```mermaid
+flowchart TD
+    A[Starting or working on something] --> B{Is this a team-owned repo,<br/>touched by more than one dev?}
 
-| Skill | Use it when... |
-|---|---|
-| [`architect`](./architect/SKILL.md) | Starting a new project or major feature. Interrogates you before writing `docs/spec.md`. |
-| [`phase-plan`](./phase-plan/SKILL.md) | Spec is approved, time to break it into buildable, end-to-end phases (`docs/build/phase-N.md`). |
-| [`phase-status`](./phase-status/SKILL.md) | End of a work session. Logs progress/decisions/next-steps into the active phase file. |
-| [`update-spec`](./update-spec/SKILL.md) | A foundational decision changed. Updates `spec.md` deliberately, with a dated changelog - never silently. |
-| [`reconcile-docs`](./reconcile-docs/SKILL.md) | Docs feel stale. Checks spec/phase claims against the actual codebase and reports drift (doesn't auto-fix). |
-| [`to-prd`](./to-prd/SKILL.md) | Bringing on a collaborator or need a formal handoff doc. Builds a PRD from `spec.md` **and** phase history, so it reflects current reality, not just original intent. |
-| [`list-skills`](./list-skills/SKILL.md) | You forgot what's installed. Lists all personal + project skills with descriptions. |
+    B -- No, solo project --> C[architect → phase-plan → phase-status<br/><i>personal</i>]
+    C --> D{Foundational decision changed?}
+    D -- Yes --> E[update-spec, or phase-status<br/>auto-proposes it<br/><i>personal</i>]
+    D -- No --> F[keep building]
 
-## The doc lifecycle these skills assume
+    B -- Yes, team repo --> G[security-check before every PR<br/>test-strategy before calling done<br/><i>team</i>]
+    G --> H{Making a decision others<br/>will rely on / question later?}
+    H -- Yes --> I[adr<br/><i>team</i>]
+    H -- No --> J{New person joining<br/>this repo?}
+    J -- Yes --> K[onboard<br/><i>team</i>]
+    J -- No --> L[keep building]
 
-```
-architect        →  docs/spec.md            (rare, deliberate changes)
-phase-plan       →  docs/build/phase-N.md   (plan section, written once per phase)
-phase-status     →  docs/build/phase-N.md   (append-only session log)
-update-spec      →  docs/spec.md            (dated changelog entry + section update)
-reconcile-docs   →  reports drift, edits nothing
-to-prd           →  docs/prd.md              (generated, not hand-maintained)
+    B -- Yes, but I'm still the<br/>sole active driver day-to-day --> M[Use BOTH:<br/>phase-plan/phase-status for your<br/>own working notes, PLUS adr for<br/>decisions the team will inherit<br/><i>personal + team, combined</i>]
+
+    N[Need to hand this off to<br/>a new collaborator or agent<br/>with zero context] --> O[to-prd<br/>reads spec.md + phases + docs/adr/<br/>if present<br/><i>personal, pulls from team artifacts too</i>]
 ```
 
-- `spec.md` is a living reference, not a changelog of implementation
-  details - it should barely change once written.
-- Phase files are append-only logs. Once a phase is done, its file is
-  historical record, not live state.
-- Nothing runs in the background - a skill only acts when you're in a
-  session and invoke it (`/phase-status`) or its description matches
-  something you said. Make ending a session with `/phase-status` a habit;
-  it now also checks for foundational changes and proposes a spec.md
-  update in the same turn, so spec.md doesn't rely on you separately
-  remembering to run `update-spec`.
+## Quick reference table
 
-## Installation (new machine)
+| Situation | Skill(s) | From |
+|---|---|---|
+| Starting a new solo project | `architect` | personal |
+| Breaking a spec into buildable steps | `phase-plan` | personal |
+| Ending a work session | `phase-status` | personal |
+| A foundational decision changed (solo project) | `update-spec` | personal |
+| Docs feel stale vs. the actual code | `reconcile-docs` | personal |
+| Need a handoff doc for a new collaborator/agent | `to-prd` | personal (reads team `docs/adr/` too, if present) |
+| Before any commit/PR, any repo | `security-check` | team |
+| Before calling code/a phase "done" | `test-strategy` | team |
+| A decision other people will rely on or question | `adr` | team |
+| New dev joining a repo | `onboard` | team |
+| Forgot what's installed | `list-skills` | personal |
 
-```bash
-git clone https://github.com/<your-username>/claude-skills.git ~/dev/claude-skills
-~/dev/claude-skills/install.sh
-```
+## The one combo case worth knowing
 
-That's it - `install.sh` symlinks every skill folder into
-`~/.claude/skills/` for you (safe to re-run any time; it skips ones
-already linked and warns instead of overwriting anything unexpected).
+If you're the sole day-to-day driver on a repo that other people also
+touch or depend on (common right when a solo project first gets adopted
+by a team, or you're the lead on a small team project) — **use both at
+once**:
 
-This links each skill folder individually rather than the whole directory,
-so you can still add ad-hoc, machine-specific skills directly into
-`~/.claude/skills/` without touching this repo.
+- Keep `phase-plan` / `phase-status` for your own working notes and
+  session continuity — nothing about a team repo makes that less useful
+  for tracking your own progress.
+- Start writing new decisions as `adr` entries the moment someone besides
+  you needs to trust or question them — this is what actually needs to
+  survive beyond your own memory.
+- If you eventually need a formal handoff doc, `to-prd` already checks
+  for `docs/adr/` and prefers it over spec.md's own changelog for the
+  "Key decisions" section — so running both isn't duplicated effort,
+  each one is just written for a different reader (you, vs. a future
+  teammate).
 
-!! **(optional): Copy `CLAUDE-project-example.md` to project level claude.md file to auto-queue skills on session start/end**
+## What doesn't need combining
 
-##
-
-**Where things actually live, since this trips people up:**
-- The real files + git history: `~/dev/claude-skills/` - this is where
-  you `git add` / `commit` / `push` / `pull` from, always.
-- `~/.claude/skills/<name>`: just a symlink (a pointer), not a copy. Claude
-  Code reads from here, but you never run git commands in this folder.
-- GitHub: the remote copy you sync with via push/pull.
-
-## Updating a skill
-
-Edit the file in `~/dev/claude-skills/`, commit, push. Since
-`~/.claude/skills/<name>` is a symlink to that folder, the change is live
-immediately everywhere the repo is cloned+symlinked - just `git pull` on
-other machines. Restart the Claude Code session to pick up edits (skills
-load at session start).
-
-## Adding a new skill
-
-```bash
-mkdir ~/dev/claude-skills/<new-skill-name>
-# write SKILL.md, commit, push
-ln -s ~/dev/claude-skills/<new-skill-name> ~/.claude/skills/<new-skill-name>
-```
-
-Add a row to the table above.
+`security-check` and `test-strategy` aren't really "team-only" in a
+strict sense — nothing stops you from running them on a solo project
+too, they're just more load-bearing on a team repo where multiple people
+(and the org's actual audited policy) depend on the result. Use judgment:
+if a personal side project would benefit from a security pass before you
+push it somewhere public, there's no rule against reaching for
+`security-check` there either.

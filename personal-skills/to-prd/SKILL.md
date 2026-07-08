@@ -27,12 +27,18 @@ skill always reads both.
      criteria and session-update entries)?
    - Did anything in this phase supersede or contradict the spec?
 
-3. **Recommend running `reconcile-docs` first** if you notice claims that
+3. **If `docs/adr/` exists, read every ADR, most recent first.** ADRs are
+   the more authoritative decision record once a project has them — the
+   "Key decisions & rationale" section should draw from ADRs over
+   spec.md's own changelog wherever both cover the same decision, since
+   ADRs are written specifically for this kind of downstream reference.
+
+4. **Recommend running `reconcile-docs` first** if you notice claims that
    look stale or contradictory between spec and phases, or between phases
    and what you can see of the actual code. Don't silently paper over
    discrepancies in the PRD — surface them to the user before finalizing.
 
-4. **Write the PRD** to `docs/prd.md` (ask before overwriting if one
+5. **Write the PRD** to `docs/prd.md` (ask before overwriting if one
    already exists — consider `docs/prd/prd-<date>.md` if the user wants a
    version history) using this structure:
 
@@ -67,17 +73,18 @@ skill always reads both.
    - Not started: <what's planned but untouched>
 
    ## Key decisions & rationale
-   Pulled from spec.md's changelog and phase files — decisions that a new
-   contributor would otherwise re-litigate or accidentally reverse.
+   Prefer `docs/adr/` if it exists; fall back to spec.md's changelog and
+   phase files. Decisions that a new contributor would otherwise
+   re-litigate or accidentally reverse.
 
    ## Open questions
-   Anything unresolved, from either spec.md or the phase files.
+   Anything unresolved, from spec.md, the phase files, or open ADRs.
 
    ## Out of scope
    Anything explicitly decided against, so it doesn't get re-proposed.
    ```
 
-5. **Domain vocabulary**: if `spec.md` has a vocabulary section, fold
+6. **Domain vocabulary**: if `spec.md` has a vocabulary section, fold
    relevant terms into the Summary/Requirements naturally rather than
    dumping a glossary — a PRD reads better as prose than as a reference doc.
 

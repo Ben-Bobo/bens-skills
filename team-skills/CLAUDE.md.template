@@ -1,0 +1,71 @@
+# Project CLAUDE.md — team template
+
+[Copy this into a project's root `CLAUDE.md` and fill in the bracketed
+sections. Delete anything that doesn't apply — a shorter accurate file
+beats a long aspirational one nobody follows. **After copied, delete this text**]
+
+---
+
+## Org GitHub policy (non-negotiable, not project-specific)
+
+- All release code lives in the org's GitHub org, private by default.
+  No repo is public without formal approval.
+- No direct commits to `main`/`master` — all changes go through a PR.
+- Every PR description states: what changed, why, how it affects
+  deployment/behavior, and risks/dependencies.
+- Reviewers who contribute code to a PR become co-authors and cannot
+  approve it — a separate reviewer is required.
+- `CODEOWNERS`, `README.md`, and `.gitignore` must exist within 6 hours
+  of repo creation. `CODEOWNERS` must assign teams/groups, never
+  individuals, and must never be left blank.
+- Never store customer data or PII in the repo. Never use customer names
+  in commits, PRs, branch names, or code variables.
+
+## Conventions
+
+- Language/framework: [<<COE TO UPDATE THIS FIELD>>]
+- Testing: see `docs/testing.md` (created/maintained via the `test-strategy`
+  skill). If it doesn't exist yet for this project, run `test-strategy` to
+  set it up before assuming test expectations. Note: this is a pre-PR gap
+  check, not a substitute for the org's required CI test/security-scan
+  gate — both apply.
+- PR checklist:
+  - [ ] Tests pass locally (`pytest`)
+  - [ ] `docs/testing.md` requirements met (run `test-strategy` if unsure)
+  - [ ] `security-check` run — no secrets, customer data, or PII in the diff
+  - [ ] No new dependencies without a note in the PR description
+  - [ ] Docstrings added/updated for any new public functions
+  - [ ] PR description includes: what changed, why, how it affects
+        deployment, risks/dependencies (per org policy)
+- Style/lint: `ruff` for linting + formatting, config in `pyproject.toml`
+  (`ruff check .` and `ruff format .` before pushing)
+
+## Security & compliance
+
+- Before considering a task done or opening a PR, run a `security-check`
+  pass on what changed (secrets, customer data/PII, new dependencies,
+  new external calls, and — for new repos — required setup files).
+
+## Architecture decisions
+
+- Significant technical decisions live in `docs/adr/`, one file per
+  decision. If you're about to make a call that a future teammate might
+  reasonably question later, use the `adr` skill to record it.
+- Read `docs/adr/` (most recent files first) before proposing a change to
+  something that already has a documented decision behind it.
+
+## New team members
+
+- If someone says they're new to this repo, use the `onboard` skill to
+  orient them rather than explaining ad hoc — keeps the answer consistent
+  and grounded in what's actually documented. Note: `onboard` covers
+  codebase orientation, not org-level GitHub access setup — point brand
+  new hires at the org's access request process first if they don't have
+  access yet.
+
+## Solo/planning docs (optional, project-dependent)
+
+- If this project also uses `docs/spec.md` / `docs/build/phase-N.md` for
+  active planning, read them at session start. Not every team repo needs
+  this — it's most useful for a project with a clear owner driving it,
+  less so for a repo many people touch equally.
